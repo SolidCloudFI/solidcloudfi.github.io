@@ -1,0 +1,2 @@
+# solidcloud-site
+Simple website
