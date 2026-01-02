@@ -1,2 +1,2 @@
 # solidcloud-site
-Simple website
+Simple website to be hosted on github pages
