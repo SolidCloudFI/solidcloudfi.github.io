@@ -7,621 +7,236 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-    rel="stylesheet" />
-  <title>Solid Cloud</title>
-  <style>
-    :root {
-      --bg-primary: #0a0a0a;
-      --bg-gradient-inner: #1a1a2e;
-      --bg-gradient-outer: #0a0a0a;
-      --text-primary: #ffffff;
-      --text-secondary: rgba(255, 255, 255, 0.5);
-      --text-shadow: rgba(0, 0, 0, 0.5);
-    }
-
-    .light-mode {
-      --bg-primary: #f5f5f5;
-      --bg-gradient-inner: #e0e7ff;
-      --bg-gradient-outer: #f5f5f5;
-      --text-primary: #1a1a1a;
-      --text-secondary: rgba(0, 0, 0, 0.5);
-      --text-shadow: rgba(255, 255, 255, 0.5);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      overflow-x: hidden;
-      background: var(--bg-primary);
-      transition: background 0.3s ease;
-    }
-
-    .hero {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      background: radial-gradient(ellipse at center, var(--bg-gradient-inner) 0%, var(--bg-gradient-outer) 100%);
-      overflow: hidden;
-      transition: background 0.3s ease;
-    }
-
-    #hero-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    .hero-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      color: var(--text-primary);
-      z-index: 10;
-      pointer-events: none;
-      transition: color 0.3s ease;
-    }
-
-    .hero-content h1 {
-      font-size: clamp(2.5rem, 8vw, 6rem);
-      font-weight: 700;
-      margin-bottom: 1rem;
-      text-shadow: 0 2px 30px var(--text-shadow);
-      letter-spacing: -0.02em;
-    }
-
-    .hero-content p {
-      font-size: clamp(1rem, 2.5vw, 1.5rem);
-      max-width: 600px;
-      margin: 0 auto;
-      text-shadow: 0 1px 20px var(--text-shadow);
-    }
-
-    .pattern-indicator {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-      z-index: 10;
-      transition: opacity 0.3s ease, color 0.3s ease;
-    }
-
-    .theme-toggle {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      z-index: 20;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50px;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      color: var(--text-primary);
-      transition: all 0.3s ease;
-      pointer-events: auto;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: inherit;
-    }
-
-    .theme-toggle:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-2px);
-    }
-
-    .light-mode .theme-toggle {
-      background: rgba(0, 0, 0, 0.05);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    .light-mode .theme-toggle:hover {
-      background: rgba(0, 0, 0, 0.1);
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 0.5;
-      }
-
-      50% {
-        opacity: 0.8;
-      }
-    }
-
-    .pattern-indicator.active {
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    .keyboard-hint {
-      position: absolute;
-      bottom: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: var(--text-secondary);
-      font-size: 0.75rem;
-      z-index: 10;
-      opacity: 0.6;
-      transition: opacity 0.3s ease, color 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .keyboard-hint:hover {
-      opacity: 1;
-    }
-
-    .key {
-      display: inline-block;
-      padding: 4px 8px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 0.7rem;
-    }
-
-    .light-mode .key {
-      background: rgba(0, 0, 0, 0.05);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-    }
-  </style>
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inconsolata:wght@200..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <title>Solid Cloud - Full Stack Development & Cloud Engineering</title>
+  <meta name="description"
+    content="Backend, frontend, and the cloud glue between them—delivered pragmatically and on time.">
 </head>
 
 <body>
-  <section class="hero">
+  <!-- Fixed Canvas Background -->
+  <div class="canvas-background">
     <canvas id="hero-canvas"></canvas>
-    <button class="theme-toggle" id="theme-toggle">
-      <span id="theme-icon">🌙</span>
-      <span id="theme-text">Light Mode</span>
-    </button>
-    <div class="hero-content">
-      <h1>Solid Cloud</h1>
-      <p>Backend, frontend, and the cloud glue between them—delivered
-        pragmatically and on time.</p>
-    </div>
-    <div class="keyboard-hint">
-      <span class="key">←</span>
-      <span class="key">→</span>
-      <span>Navigate patterns</span>
-      <span>•</span>
-      <span class="key">Space</span>
-      <span>Toggle auto/manual</span>
-    </div>
-    <div class="pattern-indicator" id="pattern-indicator">Orbiting...</div>
-  </section>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="glass">
+    <a href="#hero">Home</a>
+    <a href="#services">Services</a>
+    <a href="#skills">Tech Stack</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="theme-toggle">
+    <span id="theme-icon">☾</span>
+  </button>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+
+    <!-- Hero Section -->
+    <section id="hero">
+      <div class="hero-content">
+        <h1>Solid Cloud</h1>
+        <p class="tagline">Backend, frontend, and the cloud glue between them—delivered pragmatically and on time.</p>
+        <p class="subtitle">12 years of experience building scalable web applications and cloud infrastructure. From
+          architectural design to implementation, delivering complete solutions that work.</p>
+        <div class="cta-buttons">
+          <a href="#contact" class="btn btn-primary">Get in Touch</a>
+          <a href="#services" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span></span>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+      <div class="container">
+        <div class="section-content glass">
+          <h2>Services</h2>
+          <p class="section-intro">End-to-end development and consulting services for modern web applications and cloud
+            infrastructure.</p>
+
+          <div class="services-grid">
+            <div class="service-card glass">
+              <h3><span class="service-icon">⚡</span> Full Stack Development</h3>
+              <p>Complete application development from database design to user interface. Expert in TypeScript, React,
+                Vue, Node.js, and PHP with modern frameworks.</p>
+            </div>
+
+            <div class="service-card glass">
+              <h3><span class="service-icon">☁️</span> Cloud Architecture</h3>
+              <p>Design and implementation of scalable cloud infrastructure on AWS and GCP. Infrastructure as code with
+                Terraform, containerization with Docker and Kubernetes.</p>
+            </div>
+
+            <div class="service-card glass">
+              <h3><span class="service-icon">🏗️</span> System Architecture</h3>
+              <p>Strategic architectural decisions for complex projects. From MVP to production-scale systems handling
+                millions in revenue, with a focus on maintainability and scalability.</p>
+            </div>
+
+            <div class="service-card glass">
+              <h3><span class="service-icon">🔄</span> DevOps & CI/CD</h3>
+              <p>Automated deployment pipelines, continuous integration, and infrastructure automation. Implementing
+                best practices for reliable and fast delivery.</p>
+            </div>
+
+            <div class="service-card glass">
+              <h3><span class="service-icon">🎯</span> Technical Consulting</h3>
+              <p>Expert guidance on technology choices, architecture decisions, and development processes. Helping teams
+                deliver quality software efficiently.</p>
+            </div>
+
+            <div class="service-card glass">
+              <h3><span class="service-icon">🔗</span> Systems Integration</h3>
+              <p>Specialized in connecting complex systems, APIs, and third-party services. Experience with headless
+                CMS, e-commerce platforms, and custom integrations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+      <div class="container">
+        <div class="section-content glass">
+          <h2>Tech Stack</h2>
+          <p class="section-intro">Advanced expertise across the full development stack, from frontend to
+            infrastructure.</p>
+
+          <div class="skills-grid">
+            <div class="skill-category">
+              <h3>Frontend Development</h3>
+              <div class="skill-list">
+                <span class="skill-tag">TypeScript</span>
+                <span class="skill-tag">React</span>
+                <span class="skill-tag">Next.js</span>
+                <span class="skill-tag">Vue</span>
+                <span class="skill-tag">Nuxt</span>
+                <span class="skill-tag">Redux</span>
+                <span class="skill-tag">Redux Saga</span>
+                <span class="skill-tag">Hydrogen</span>
+              </div>
+            </div>
+
+            <div class="skill-category">
+              <h3>Backend Development</h3>
+              <div class="skill-list">
+                <span class="skill-tag">Node.js</span>
+                <span class="skill-tag">PHP</span>
+                <span class="skill-tag">Symphony</span>
+                <span class="skill-tag">REST APIs</span>
+                <span class="skill-tag">GraphQL</span>
+                <span class="skill-tag">Prisma</span>
+                <span class="skill-tag">WordPress</span>
+                <span class="skill-tag">WooCommerce</span>
+              </div>
+            </div>
+
+            <div class="skill-category">
+              <h3>Cloud & DevOps</h3>
+              <div class="skill-list">
+                <span class="skill-tag">AWS</span>
+                <span class="skill-tag">GCP</span>
+                <span class="skill-tag">Terraform</span>
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">Kubernetes</span>
+                <span class="skill-tag">CI/CD</span>
+                <span class="skill-tag">Vercel</span>
+              </div>
+            </div>
+
+            <div class="skill-category">
+              <h3>Databases & Tools</h3>
+              <div class="skill-list">
+                <span class="skill-tag">SQL</span>
+                <span class="skill-tag">ORM</span>
+                <span class="skill-tag">Sanity</span>
+                <span class="skill-tag">Supabase</span>
+                <span class="skill-tag">Shopify</span>
+                <span class="skill-tag">Algolia</span>
+              </div>
+            </div>
+
+            <div class="skill-category">
+              <h3>Testing & Quality</h3>
+              <div class="skill-list">
+                <span class="skill-tag">Jest</span>
+                <span class="skill-tag">Cypress</span>
+                <span class="skill-tag">Playwright</span>
+                <span class="skill-tag">TDD</span>
+                <span class="skill-tag">Unit Testing</span>
+                <span class="skill-tag">E2E Testing</span>
+              </div>
+            </div>
+
+            <div class="skill-category">
+              <h3>Other</h3>
+              <div class="skill-list">
+                <span class="skill-tag">Git</span>
+                <span class="skill-tag">Agile</span>
+                <span class="skill-tag">Architecture Design</span>
+                <span class="skill-tag">Team Leadership</span>
+                <span class="skill-tag">Code Review</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="container">
+        <div class="contact-content glass">
+          <h2>Let's Work Together</h2>
+          <p>Ready to bring your project to life? Whether you need a complete solution from scratch or expert consulting
+            to guide your team, let's discuss how we can collaborate.</p>
+
+          <div class="contact-info">
+            <div class="contact-item">
+              <span class="contact-icon">📧</span>
+              <a href="mailto:moi@solidcloud.fi">moi@solidcloud.fi</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">📱</span>
+              <a href="tel:+358409374034">+358 40 937 4034</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">📍</span>
+              <span>Helsinki, Finland</span>
+            </div>
+          </div>
+
+          <div class="cta-buttons" style="margin-top: 3rem;">
+            <a href="mailto:moi@solidcloud.fi" class="btn btn-primary">Send an Email</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Solid Cloud. All rights reserved.</p>
+    </footer>
+
+  </div>
+
+  <!-- Pattern Indicator -->
+  <div class="pattern-indicator" id="pattern-indicator">Sphere</div>
 
   <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-  <script>
-    // Initialize Three.js scene
-    const canvas = document.getElementById('hero-canvas');
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      antialias: true,
-      alpha: true
-    });
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 7);
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-    // Lighting for subtle depth
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-    scene.add(ambientLight);
-
-    const directionalLight = new THREE.DirectionalLight(0x6366f1, 0.5);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
-
-    // Particle system setup
-    const PARTICLE_COUNT = 6000;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(PARTICLE_COUNT * 3);
-    const basePositions = new Float32Array(PARTICLE_COUNT * 3);
-    const targetPositions = new Float32Array(PARTICLE_COUNT * 3);
-    const colors = new Float32Array(PARTICLE_COUNT * 3);
-
-    // Initialize particles in a dynamic sphere
-    const RADIUS = 5.0;
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const phi = Math.acos(1 - 2 * Math.random());
-      const theta = Math.random() * Math.PI * 2;
-      const r = RADIUS * Math.cbrt(Math.random());
-
-      const x = r * Math.sin(phi) * Math.cos(theta);
-      const y = r * Math.cos(phi);
-      const z = r * Math.sin(phi) * Math.sin(theta);
-
-      positions[i * 3] = basePositions[i * 3] = x;
-      positions[i * 3 + 1] = basePositions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = basePositions[i * 3 + 2] = z;
-
-      // Gradient colors based on position
-      colors[i * 3] = 0.6 + y / RADIUS * 0.4;     // R
-      colors[i * 3 + 1] = 0.6 + x / RADIUS * 0.3; // G
-      colors[i * 3 + 2] = 0.9;                     // B
-    }
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-    const material = new THREE.PointsMaterial({
-      size: 0.028,
-      sizeAttenuation: true,
-      transparent: true,
-      opacity: 0.85,
-      vertexColors: true,
-      blending: THREE.AdditiveBlending
-    });
-
-    const points = new THREE.Points(geometry, material);
-    scene.add(points);
-
-    // ============ THEME TOGGLE ============
-    let isDarkMode = true;
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    const themeText = document.getElementById('theme-text');
-
-    function updateParticleColors(isLight) {
-      const colorsArray = geometry.attributes.color.array;
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const y = positions[i * 3 + 1];
-        const x = positions[i * 3];
-
-        if (isLight) {
-          // Light mode: darker particles
-          colorsArray[i * 3] = 0.2 + y / RADIUS * 0.2;     // R
-          colorsArray[i * 3 + 1] = 0.25 + x / RADIUS * 0.15; // G
-          colorsArray[i * 3 + 2] = 0.4;                     // B
-        } else {
-          // Dark mode: brighter particles
-          colorsArray[i * 3] = 0.6 + y / RADIUS * 0.4;     // R
-          colorsArray[i * 3 + 1] = 0.6 + x / RADIUS * 0.3; // G
-          colorsArray[i * 3 + 2] = 0.9;                     // B
-        }
-      }
-      geometry.attributes.color.needsUpdate = true;
-    }
-
-    themeToggle.addEventListener('click', () => {
-      isDarkMode = !isDarkMode;
-      document.body.classList.toggle('light-mode');
-
-      if (isDarkMode) {
-        themeIcon.textContent = '🌙';
-        themeText.textContent = 'Light Mode';
-        material.blending = THREE.AdditiveBlending;
-      } else {
-        themeIcon.textContent = '☀️';
-        themeText.textContent = 'Dark Mode';
-        material.blending = THREE.NormalBlending;
-      }
-
-      updateParticleColors(!isDarkMode);
-    });
-
-    // ============ PATTERN GENERATORS ============
-
-    function createDatabasePattern(count) {
-      const positions = new Float32Array(count * 3);
-      const stacks = 6;
-      const radius = 2.3;
-      const height = 3.8;
-      const diskThickness = 0.08;
-
-      for (let i = 0; i < count; i++) {
-        const layer = Math.floor(Math.random() * stacks);
-        const y = (layer / (stacks - 1) - 0.5) * height;
-        const angle = Math.random() * Math.PI * 2;
-
-        // Tighter radius distribution - concentrate more particles at edges
-        const rand = Math.random();
-        const r = radius * (0.75 + rand * 0.25); // 75-100% of radius
-
-        // Very thin disk for sharp definition
-        const yOffset = (Math.random() - 0.5) * diskThickness;
-
-        positions[i * 3] = Math.cos(angle) * r;
-        positions[i * 3 + 1] = y + yOffset;
-        positions[i * 3 + 2] = Math.sin(angle) * r;
-      }
-
-      return positions;
-    }
-
-
-
-    function createSpherePattern(count) {
-      const positions = new Float32Array(count * 3);
-      const radius = 3.2;
-
-      for (let i = 0; i < count; i++) {
-        const phi = Math.acos(1 - 2 * Math.random());
-        const theta = Math.random() * Math.PI * 2;
-
-        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-        positions[i * 3 + 1] = radius * Math.cos(phi);
-        positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
-      }
-
-      return positions;
-    }
-
-    // Pattern sequence
-    const patterns = [
-      { fn: createSpherePattern, name: "Sphere" },
-      { fn: createDatabasePattern, name: "Database" }
-    ];
-
-    let currentState = 'holding';
-    let morphProgress = 0;
-    let morphDuration = 2.5;
-    let holdTimer = 0;
-    let holdDuration = 3.0;
-    let orbitTimer = 0;
-    let orbitDuration = 6.0;
-    let currentPatternIndex = 0; // Start with sphere pattern
-    let isManualControl = false;
-
-    const patternIndicator = document.getElementById('pattern-indicator');
-
-    // Set initial target to sphere pattern
-    let currentTarget = patterns[currentPatternIndex].fn(PARTICLE_COUNT);
-    for (let i = 0; i < PARTICLE_COUNT * 3; i++) {
-      targetPositions[i] = currentTarget[i];
-      // Initialize particles at the sphere positions
-      positions[i] = currentTarget[i];
-      basePositions[i] = currentTarget[i];
-    }
-    geometry.attributes.position.needsUpdate = true;
-
-    // Animation loop
-    const clock = new THREE.Clock();
-
-    function updateIndicator(text, isActive = false) {
-      patternIndicator.textContent = text;
-      if (isActive) {
-        patternIndicator.classList.add('active');
-      } else {
-        patternIndicator.classList.remove('active');
-      }
-    }
-
-    // Set initial indicator
-    updateIndicator('Sphere', true);
-
-    function animate() {
-      requestAnimationFrame(animate);
-      const deltaTime = Math.min(clock.getDelta(), 0.033); // Cap at ~30fps
-
-      const positionsArray = geometry.attributes.position.array;
-
-      if (currentState === 'orbiting') {
-        orbitTimer += deltaTime;
-        updateIndicator('Orbiting...', false);
-
-        // Dynamic orbiting with chaotic motion
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-          const ix = i * 3;
-          const iy = i * 3 + 1;
-          const iz = i * 3 + 2;
-
-          const bx = basePositions[ix];
-          const by = basePositions[iy];
-          const bz = basePositions[iz];
-
-          // Multiple rotation components for complex motion
-          const time = orbitTimer;
-          const angle1 = time * 0.2 + i * 0.001;
-          const angle2 = time * 0.12 + i * 0.0012;
-          const angle3 = time * 0.3 - i * 0.0008;
-
-          const radius = Math.sqrt(bx * bx + bz * bz);
-          const radiusY = Math.sqrt(bx * bx + by * by);
-
-          // Complex 3D spiral motion
-          const nx = Math.cos(angle1) * radius - Math.sin(angle3) * bz * 0.15;
-          const nz = Math.sin(angle1) * radius + Math.cos(angle3) * bx * 0.15;
-          const ny = by * Math.cos(angle2) + Math.sin(angle2 * 1.3) * radiusY * 0.08;
-
-          // Add wave and turbulence
-          const wave = Math.sin(angle1 * 2.5 + i * 0.015) * 0.12;
-          const turbulence = Math.cos(angle3 * 1.7 + i * 0.02) * 0.08;
-
-          // Smooth interpolation with momentum
-          positionsArray[ix] += (nx - positionsArray[ix]) * 0.008;
-          positionsArray[iy] += (ny + wave - positionsArray[iy]) * 0.008;
-          positionsArray[iz] += (nz + turbulence - positionsArray[iz]) * 0.008;
-        }
-
-        // Transition to morphing after orbit duration (only if not manual control)
-        if (!isManualControl && orbitTimer >= orbitDuration) {
-          startMorph();
-        }
-
-      } else if (currentState === 'morphing') {
-        morphProgress += deltaTime / morphDuration;
-        updateIndicator(`Forming ${patterns[currentPatternIndex].name}...`, true);
-
-        if (morphProgress >= 1) {
-          morphProgress = 1;
-          currentState = 'holding';
-          holdTimer = 0;
-        }
-
-        // Smooth eased interpolation
-        const easeProgress = morphProgress < 0.5
-          ? 2 * morphProgress * morphProgress
-          : 1 - Math.pow(-2 * morphProgress + 2, 2) / 2;
-
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-          const ix = i * 3;
-          const iy = i * 3 + 1;
-          const iz = i * 3 + 2;
-
-          // Accelerate towards target
-          const speed = 0.03 + easeProgress * 0.03;
-          positionsArray[ix] += (targetPositions[ix] - positionsArray[ix]) * speed;
-          positionsArray[iy] += (targetPositions[iy] - positionsArray[iy]) * speed;
-          positionsArray[iz] += (targetPositions[iz] - positionsArray[iz]) * speed;
-        }
-
-      } else if (currentState === 'holding') {
-        holdTimer += deltaTime;
-        updateIndicator(`${patterns[currentPatternIndex].name}`, true);
-
-        // Keep particles locked to target positions
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-          const ix = i * 3;
-          const iy = i * 3 + 1;
-          const iz = i * 3 + 2;
-
-          // Gently pull towards target to maintain shape
-          positionsArray[ix] += (targetPositions[ix] - positionsArray[ix]) * 0.02;
-          positionsArray[iy] += (targetPositions[iy] - positionsArray[iy]) * 0.02;
-          positionsArray[iz] += (targetPositions[iz] - positionsArray[iz]) * 0.02;
-        }
-
-        if (!isManualControl && holdTimer >= holdDuration) {
-          resetToOrbiting();
-        }
-
-      }
-
-      geometry.attributes.position.needsUpdate = true;
-
-      // Slow rotation of entire point cloud
-      points.rotation.y += deltaTime * 0.04;
-      points.rotation.x = Math.sin(clock.elapsedTime * 0.1) * 0.1;
-
-      renderer.render(scene, camera);
-    }
-
-    function startMorph() {
-      currentState = 'morphing';
-      morphProgress = 0;
-      orbitTimer = 0;
-
-      // Move to next pattern
-      currentPatternIndex = (currentPatternIndex + 1) % patterns.length;
-
-      // Generate new target pattern
-      const newTarget = patterns[currentPatternIndex].fn(PARTICLE_COUNT);
-      for (let i = 0; i < PARTICLE_COUNT * 3; i++) {
-        targetPositions[i] = newTarget[i];
-      }
-    }
-
-    function resetToOrbiting() {
-      currentState = 'orbiting';
-      morphProgress = 0;
-      holdTimer = 0;
-      orbitTimer = 0;
-
-      // Set new random sphere positions as orbit targets
-      // Particles will smoothly interpolate from their current pattern positions
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const phi = Math.acos(1 - 2 * Math.random());
-        const theta = Math.random() * Math.PI * 2;
-        const r = RADIUS * Math.cbrt(Math.random());
-
-        const x = r * Math.sin(phi) * Math.cos(theta);
-        const y = r * Math.cos(phi);
-        const z = r * Math.sin(phi) * Math.sin(theta);
-
-        basePositions[i * 3] = x;
-        basePositions[i * 3 + 1] = y;
-        basePositions[i * 3 + 2] = z;
-      }
-    }
-
-    // Handle window resize
-    function onResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    window.addEventListener('resize', onResize);
-
-    // ============ KEYBOARD CONTROLS ============
-    function switchToPattern(index) {
-      // Set the target pattern index
-      currentPatternIndex = index;
-
-      // Generate new target pattern
-      const newTarget = patterns[currentPatternIndex].fn(PARTICLE_COUNT);
-      for (let i = 0; i < PARTICLE_COUNT * 3; i++) {
-        targetPositions[i] = newTarget[i];
-      }
-
-      // Start morphing to the new pattern
-      currentState = 'morphing';
-      morphProgress = 0;
-      orbitTimer = 0;
-      holdTimer = 0;
-      explodeTimer = 0;
-      isManualControl = true;
-    }
-
-    function nextPattern() {
-      const nextIndex = (currentPatternIndex + 1) % patterns.length;
-      switchToPattern(nextIndex);
-    }
-
-    function previousPattern() {
-      const prevIndex = (currentPatternIndex - 1 + patterns.length) % patterns.length;
-      switchToPattern(prevIndex);
-    }
-
-    // Keyboard event listener
-    window.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowRight') {
-        nextPattern();
-        updateIndicator(`→ ${patterns[currentPatternIndex].name}`, true);
-      } else if (event.key === 'ArrowLeft') {
-        previousPattern();
-        updateIndicator(`← ${patterns[currentPatternIndex].name}`, true);
-      } else if (event.key === ' ' || event.key === 'Spacebar') {
-        // Space bar to toggle manual/auto mode
-        event.preventDefault();
-        isManualControl = !isManualControl;
-        updateIndicator(isManualControl ? 'Manual Mode (use ← →)' : 'Auto Mode', false);
-
-        // Reset timers when going back to auto
-        if (!isManualControl) {
-          orbitTimer = 0;
-          holdTimer = 0;
-        }
-      }
-    });
-
-    // Start animation
-    animate();
-  </script>
+  <!-- Main JavaScript -->
+  <script src="main.js"></script>
 </body>
 
 </html>
