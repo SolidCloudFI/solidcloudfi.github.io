@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inconsolata:wght@200..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <title>Solid Cloud - Full Stack Development & Cloud Engineering</title>
@@ -21,17 +21,15 @@
     <canvas id="hero-canvas"></canvas>
   </div>
 
-  <!-- Navigation -->
-  <nav class="glass">
-    <a href="#hero">Home</a>
-    <a href="#services">Services</a>
-    <a href="#skills">Tech Stack</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <!-- Logo -->
+  <a href="#hero" class="logo">Solid Cloud</a>
 
   <!-- Theme Toggle -->
   <button class="theme-toggle" id="theme-toggle">
-    <span id="theme-icon">☾</span>
+    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
   </button>
 
   <!-- Content Wrapper -->
@@ -40,13 +38,9 @@
     <!-- Hero Section -->
     <section id="hero">
       <div class="hero-content">
-        <h1>Solid Cloud</h1>
-        <p class="tagline">Backend, frontend, and the cloud glue between them—delivered pragmatically and on time.</p>
-        <p class="subtitle">12 years of experience building scalable web applications and cloud infrastructure. From
-          architectural design to implementation, delivering complete solutions that work.</p>
+        <h1>Full stack thinking. Cloud-scale execution.</h1>
         <div class="cta-buttons">
           <a href="#contact" class="btn btn-primary">Get in Touch</a>
-          <a href="#services" class="btn btn-secondary">Learn More</a>
         </div>
       </div>
       <div class="scroll-indicator">
@@ -57,135 +51,130 @@
     <!-- Services Section -->
     <section id="services">
       <div class="container">
-        <div class="section-content glass">
-          <h2>Services</h2>
-          <p class="section-intro">End-to-end development and consulting services for modern web applications and cloud
-            infrastructure.</p>
+        <div class="services-list">
+          <div class="service-item glass">
+            <h2>Services</h2>
+            <p class="subtitle">10+ years of experience building scalable web applications and cloud infrastructure.
+              From
+              architectural design to implementation, delivering complete solutions that work.</p>
+          </div>
 
-          <div class="services-grid">
-            <div class="service-card glass">
-              <h3><span class="service-icon">⚡</span> Full Stack Development</h3>
-              <p>Complete application development from database design to user interface. Expert in TypeScript, React,
-                Vue, Node.js, and PHP with modern frameworks.</p>
-            </div>
-
-            <div class="service-card glass">
-              <h3><span class="service-icon">☁️</span> Cloud Architecture</h3>
-              <p>Design and implementation of scalable cloud infrastructure on AWS and GCP. Infrastructure as code with
-                Terraform, containerization with Docker and Kubernetes.</p>
-            </div>
-
-            <div class="service-card glass">
-              <h3><span class="service-icon">🏗️</span> System Architecture</h3>
-              <p>Strategic architectural decisions for complex projects. From MVP to production-scale systems handling
-                millions in revenue, with a focus on maintainability and scalability.</p>
-            </div>
-
-            <div class="service-card glass">
-              <h3><span class="service-icon">🔄</span> DevOps & CI/CD</h3>
-              <p>Automated deployment pipelines, continuous integration, and infrastructure automation. Implementing
-                best practices for reliable and fast delivery.</p>
-            </div>
-
-            <div class="service-card glass">
-              <h3><span class="service-icon">🎯</span> Technical Consulting</h3>
-              <p>Expert guidance on technology choices, architecture decisions, and development processes. Helping teams
-                deliver quality software efficiently.</p>
-            </div>
-
-            <div class="service-card glass">
-              <h3><span class="service-icon">🔗</span> Systems Integration</h3>
-              <p>Specialized in connecting complex systems, APIs, and third-party services. Experience with headless
-                CMS, e-commerce platforms, and custom integrations.</p>
+          <div class="service-item glass">
+            <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg></span> Full Stack Development</h3>
+            <p>Complete application development from database design to user interface. Expert in TypeScript, React,
+              Vue, Node.js, and PHP with modern frameworks.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">Next.js</span>
+              <span class="tech-tag">Vue</span>
+              <span class="tech-tag">Nuxt</span>
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">PHP</span>
+              <span class="tech-tag">Redux</span>
+              <span class="tech-tag">Hydrogen</span>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Skills Section -->
-    <section id="skills">
-      <div class="container">
-        <div class="section-content glass">
-          <h2>Tech Stack</h2>
-          <p class="section-intro">Advanced expertise across the full development stack, from frontend to
-            infrastructure.</p>
-
-          <div class="skills-grid">
-            <div class="skill-category">
-              <h3>Frontend Development</h3>
-              <div class="skill-list">
-                <span class="skill-tag">TypeScript</span>
-                <span class="skill-tag">React</span>
-                <span class="skill-tag">Next.js</span>
-                <span class="skill-tag">Vue</span>
-                <span class="skill-tag">Nuxt</span>
-                <span class="skill-tag">Redux</span>
-                <span class="skill-tag">Redux Saga</span>
-                <span class="skill-tag">Hydrogen</span>
-              </div>
+          <div class="service-item glass">
+            <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                </svg></span> Cloud Architecture</h3>
+            <p>Design and implementation of scalable cloud infrastructure on AWS and GCP. Infrastructure as code with
+              Terraform, containerization with Docker and Kubernetes.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">AWS</span>
+              <span class="tech-tag">GCP</span>
+              <span class="tech-tag">Terraform</span>
+              <span class="tech-tag">Docker</span>
+              <span class="tech-tag">Kubernetes</span>
+              <span class="tech-tag">Vercel</span>
             </div>
+          </div>
 
-            <div class="skill-category">
-              <h3>Backend Development</h3>
-              <div class="skill-list">
-                <span class="skill-tag">Node.js</span>
-                <span class="skill-tag">PHP</span>
-                <span class="skill-tag">Symphony</span>
-                <span class="skill-tag">REST APIs</span>
-                <span class="skill-tag">GraphQL</span>
-                <span class="skill-tag">Prisma</span>
-                <span class="skill-tag">WordPress</span>
-                <span class="skill-tag">WooCommerce</span>
-              </div>
+          <div class="service-item glass">
+            <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg></span> System Architecture</h3>
+            <p>Strategic architectural decisions for complex projects. From MVP to production-scale systems handling
+              millions in revenue, with a focus on maintainability and scalability.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Architecture Design</span>
+              <span class="tech-tag">REST APIs</span>
+              <span class="tech-tag">GraphQL</span>
+              <span class="tech-tag">SQL</span>
+              <span class="tech-tag">ORM</span>
             </div>
+          </div>
 
-            <div class="skill-category">
-              <h3>Cloud & DevOps</h3>
-              <div class="skill-list">
-                <span class="skill-tag">AWS</span>
-                <span class="skill-tag">GCP</span>
-                <span class="skill-tag">Terraform</span>
-                <span class="skill-tag">Docker</span>
-                <span class="skill-tag">Kubernetes</span>
-                <span class="skill-tag">CI/CD</span>
-                <span class="skill-tag">Vercel</span>
-              </div>
+          <div class="service-item glass">
+            <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polyline points="23 4 23 10 17 10"></polyline>
+                  <polyline points="1 20 1 14 7 14"></polyline>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg></span> DevOps & CI/CD</h3>
+            <p>Automated deployment pipelines, continuous integration, and infrastructure automation. Implementing
+              best practices for reliable and fast delivery.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">CI/CD</span>
+              <span class="tech-tag">Docker</span>
+              <span class="tech-tag">Kubernetes</span>
+              <span class="tech-tag">Terraform</span>
+              <span class="tech-tag">Git</span>
             </div>
+          </div>
 
-            <div class="skill-category">
-              <h3>Databases & Tools</h3>
-              <div class="skill-list">
-                <span class="skill-tag">SQL</span>
-                <span class="skill-tag">ORM</span>
-                <span class="skill-tag">Sanity</span>
-                <span class="skill-tag">Supabase</span>
-                <span class="skill-tag">Shopify</span>
-                <span class="skill-tag">Algolia</span>
-              </div>
+          <div class="service-item glass">
+            <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="6"></circle>
+                  <circle cx="12" cy="12" r="2"></circle>
+                </svg></span> Technical Consulting</h3>
+            <p>Expert guidance on technology choices, architecture decisions, and development processes. Helping teams
+              deliver quality software efficiently.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Agile</span>
+              <span class="tech-tag">Team Leadership</span>
+              <span class="tech-tag">TDD</span>
+              <span class="tech-tag">Jest</span>
+              <span class="tech-tag">Cypress</span>
+              <span class="tech-tag">Playwright</span>
             </div>
+          </div>
 
-            <div class="skill-category">
-              <h3>Testing & Quality</h3>
-              <div class="skill-list">
-                <span class="skill-tag">Jest</span>
-                <span class="skill-tag">Cypress</span>
-                <span class="skill-tag">Playwright</span>
-                <span class="skill-tag">TDD</span>
-                <span class="skill-tag">Unit Testing</span>
-                <span class="skill-tag">E2E Testing</span>
-              </div>
-            </div>
-
-            <div class="skill-category">
-              <h3>Other</h3>
-              <div class="skill-list">
-                <span class="skill-tag">Git</span>
-                <span class="skill-tag">Agile</span>
-                <span class="skill-tag">Architecture Design</span>
-                <span class="skill-tag">Team Leadership</span>
-                <span class="skill-tag">Code Review</span>
-              </div>
+          <div class="service-item glass">
+            <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg></span> Systems Integration</h3>
+            <p>Specialized in connecting complex systems, APIs, and third-party services. Experience with headless
+              CMS, e-commerce platforms, and custom integrations.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Sanity</span>
+              <span class="tech-tag">WordPress</span>
+              <span class="tech-tag">WooCommerce</span>
+              <span class="tech-tag">Shopify</span>
+              <span class="tech-tag">Supabase</span>
+              <span class="tech-tag">Prisma</span>
+              <span class="tech-tag">Algolia</span>
             </div>
           </div>
         </div>
@@ -202,21 +191,33 @@
 
           <div class="contact-info">
             <div class="contact-item">
-              <span class="contact-icon">📧</span>
+              <span class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg></span>
               <a href="mailto:moi@solidcloud.fi">moi@solidcloud.fi</a>
             </div>
             <div class="contact-item">
-              <span class="contact-icon">📱</span>
+              <span class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                  </path>
+                </svg></span>
               <a href="tel:+358409374034">+358 40 937 4034</a>
             </div>
             <div class="contact-item">
-              <span class="contact-icon">📍</span>
+              <span class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg></span>
               <span>Helsinki, Finland</span>
             </div>
-          </div>
-
-          <div class="cta-buttons" style="margin-top: 3rem;">
-            <a href="mailto:moi@solidcloud.fi" class="btn btn-primary">Send an Email</a>
           </div>
         </div>
       </div>

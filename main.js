@@ -66,9 +66,27 @@ const points = new THREE.Points(geometry, material);
 scene.add(points);
 
 // ============ THEME TOGGLE ============
-let isDarkMode = true;
+const currentHour = new Date().getHours();
+const isWorkHours = currentHour >= 8 && currentHour < 18;
+let isDarkMode = !isWorkHours;
+
 const themeToggle = document.getElementById('theme-toggle');
 const themeIcon = document.getElementById('theme-icon');
+
+// Icon paths
+const moonIcon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+const sunIcon = '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M4.93 4.93l1.41 1.41"></path><path d="M17.66 17.66l1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="M6.34 17.66l-1.41 1.41"></path><path d="M19.07 4.93l-1.41 1.41"></path>';
+
+// Set initial theme
+if (!isDarkMode) {
+  document.body.classList.add('light-mode');
+  themeIcon.innerHTML = sunIcon;
+  material.blending = THREE.NormalBlending;
+} else {
+  themeIcon.innerHTML = moonIcon;
+  material.blending = THREE.AdditiveBlending;
+}
+updateParticleColors(!isDarkMode);
 
 function updateParticleColors(isLight) {
   const colorsArray = geometry.attributes.color.array;
@@ -96,10 +114,10 @@ themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('light-mode');
 
   if (isDarkMode) {
-    themeIcon.textContent = '☾';
+    themeIcon.innerHTML = moonIcon;
     material.blending = THREE.AdditiveBlending;
   } else {
-    themeIcon.textContent = '☼';
+    themeIcon.innerHTML = sunIcon;
     material.blending = THREE.NormalBlending;
   }
 
@@ -158,12 +176,10 @@ const patterns = [
 let currentState = 'holding';
 let morphProgress = 0;
 let morphDuration = 2.5;
-let holdTimer = 0;
-let holdDuration = 3.0;
 let orbitTimer = 0;
-let orbitDuration = 6.0;
 let currentPatternIndex = 0;
-let isManualControl = false;
+let targetPattern = 'sphere';
+let shouldOrbit = false;
 
 // Set initial target to sphere pattern
 let currentTarget = patterns[currentPatternIndex].fn(PARTICLE_COUNT);
@@ -183,7 +199,7 @@ function animate() {
 
   const positionsArray = geometry.attributes.position.array;
 
-  if (currentState === 'orbiting') {
+  if (shouldOrbit) {
     orbitTimer += deltaTime;
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -214,18 +230,12 @@ function animate() {
       positionsArray[iy] += (ny + wave - positionsArray[iy]) * 0.008;
       positionsArray[iz] += (nz + turbulence - positionsArray[iz]) * 0.008;
     }
-
-    if (!isManualControl && orbitTimer >= orbitDuration) {
-      startMorph();
-    }
-
   } else if (currentState === 'morphing') {
     morphProgress += deltaTime / morphDuration;
 
     if (morphProgress >= 1) {
       morphProgress = 1;
       currentState = 'holding';
-      holdTimer = 0;
     }
 
     const easeProgress = morphProgress < 0.5
@@ -242,10 +252,7 @@ function animate() {
       positionsArray[iy] += (targetPositions[iy] - positionsArray[iy]) * speed;
       positionsArray[iz] += (targetPositions[iz] - positionsArray[iz]) * speed;
     }
-
   } else if (currentState === 'holding') {
-    holdTimer += deltaTime;
-
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       const ix = i * 3;
       const iy = i * 3 + 1;
@@ -254,10 +261,6 @@ function animate() {
       positionsArray[ix] += (targetPositions[ix] - positionsArray[ix]) * 0.02;
       positionsArray[iy] += (targetPositions[iy] - positionsArray[iy]) * 0.02;
       positionsArray[iz] += (targetPositions[iz] - positionsArray[iz]) * 0.02;
-    }
-
-    if (!isManualControl && holdTimer >= holdDuration) {
-      resetToOrbiting();
     }
   }
 
@@ -269,37 +272,80 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-function startMorph() {
-  currentState = 'morphing';
-  morphProgress = 0;
-  orbitTimer = 0;
+function switchToPattern(patternName) {
+  if (patternName === 'orbit') {
+    shouldOrbit = true;
+    currentState = 'holding';
 
-  currentPatternIndex = (currentPatternIndex + 1) % patterns.length;
+    // Set random orbit base positions
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const phi = Math.acos(1 - 2 * Math.random());
+      const theta = Math.random() * Math.PI * 2;
+      const r = RADIUS * Math.cbrt(Math.random());
 
-  const newTarget = patterns[currentPatternIndex].fn(PARTICLE_COUNT);
-  for (let i = 0; i < PARTICLE_COUNT * 3; i++) {
-    targetPositions[i] = newTarget[i];
+      const x = r * Math.sin(phi) * Math.cos(theta);
+      const y = r * Math.cos(phi);
+      const z = r * Math.sin(phi) * Math.sin(theta);
+
+      basePositions[i * 3] = x;
+      basePositions[i * 3 + 1] = y;
+      basePositions[i * 3 + 2] = z;
+    }
+    return;
+  }
+
+  shouldOrbit = false;
+
+  const patternIndex = patternName === 'sphere' ? 0 : 1;
+
+  if (currentPatternIndex !== patternIndex || currentState === 'orbiting') {
+    currentPatternIndex = patternIndex;
+    const newTarget = patterns[currentPatternIndex].fn(PARTICLE_COUNT);
+
+    for (let i = 0; i < PARTICLE_COUNT * 3; i++) {
+      targetPositions[i] = newTarget[i];
+    }
+
+    currentState = 'morphing';
+    morphProgress = 0;
   }
 }
 
-function resetToOrbiting() {
-  currentState = 'orbiting';
-  morphProgress = 0;
-  holdTimer = 0;
-  orbitTimer = 0;
+let lastPattern = 'sphere';
+let isThrottled = false;
 
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    const phi = Math.acos(1 - 2 * Math.random());
-    const theta = Math.random() * Math.PI * 2;
-    const r = RADIUS * Math.cbrt(Math.random());
+function updatePatternBasedOnScroll() {
+  if (isThrottled) return;
 
-    const x = r * Math.sin(phi) * Math.cos(theta);
-    const y = r * Math.cos(phi);
-    const z = r * Math.sin(phi) * Math.sin(theta);
+  const scrollY = window.pageYOffset;
+  const heroSection = document.getElementById('hero');
+  const servicesSection = document.getElementById('services');
+  const contactSection = document.getElementById('contact');
 
-    basePositions[i * 3] = x;
-    basePositions[i * 3 + 1] = y;
-    basePositions[i * 3 + 2] = z;
+  const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+  const servicesTop = servicesSection.offsetTop;
+  const servicesBottom = servicesSection.offsetTop + servicesSection.offsetHeight;
+  const contactTop = contactSection.offsetTop;
+
+  let newPattern;
+  if (scrollY < 100) {
+    newPattern = 'sphere';
+  } else if (scrollY >= 100 && scrollY < servicesTop - 400) {
+    newPattern = 'orbit';
+  } else if (scrollY >= servicesTop - 400 && scrollY < servicesBottom - 50) {
+    newPattern = 'database';
+  } else {
+    newPattern = 'orbit';
+  }
+
+  if (newPattern !== lastPattern) {
+    switchToPattern(newPattern);
+    lastPattern = newPattern;
+
+    isThrottled = true;
+    setTimeout(() => {
+      isThrottled = false;
+    }, 150);
   }
 }
 
@@ -315,38 +361,18 @@ window.addEventListener('resize', onResize);
 // Start animation
 animate();
 
-// ============ NAVIGATION HIGHLIGHT ============
-const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('nav a');
+// ============ SCROLL PATTERN UPDATE ============
+window.addEventListener('scroll', updatePatternBasedOnScroll);
+updatePatternBasedOnScroll();
 
-function highlightNav() {
-  let current = '';
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.clientHeight;
-    if (window.pageYOffset >= sectionTop - 200) {
-      current = section.getAttribute('id');
-    }
-  });
+// ============ SCROLL INDICATOR FADE ============
+const scrollIndicator = document.querySelector('.scroll-indicator');
+let hasScrolled = false;
 
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href') === `#${current}`) {
-      link.classList.add('active');
-    }
-  });
-}
-
-window.addEventListener('scroll', highlightNav);
-highlightNav();
-
-// ============ SMOOTH SCROLL ============
-navLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const targetId = link.getAttribute('href');
-    const targetSection = document.querySelector(targetId);
-    targetSection.scrollIntoView({ behavior: 'smooth' });
-  });
+window.addEventListener('scroll', () => {
+  if (!hasScrolled && window.pageYOffset > 50) {
+    hasScrolled = true;
+    scrollIndicator.classList.add('hidden');
+  }
 });
 
