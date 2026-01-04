@@ -165,8 +165,6 @@ let orbitDuration = 6.0;
 let currentPatternIndex = 0;
 let isManualControl = false;
 
-const patternIndicator = document.getElementById('pattern-indicator');
-
 // Set initial target to sphere pattern
 let currentTarget = patterns[currentPatternIndex].fn(PARTICLE_COUNT);
 for (let i = 0; i < PARTICLE_COUNT * 3; i++) {
@@ -179,17 +177,6 @@ geometry.attributes.position.needsUpdate = true;
 // Animation loop
 const clock = new THREE.Clock();
 
-function updateIndicator(text, isActive = false) {
-  patternIndicator.textContent = text;
-  if (isActive) {
-    patternIndicator.classList.add('active');
-  } else {
-    patternIndicator.classList.remove('active');
-  }
-}
-
-updateIndicator('Sphere', true);
-
 function animate() {
   requestAnimationFrame(animate);
   const deltaTime = Math.min(clock.getDelta(), 0.033);
@@ -198,7 +185,6 @@ function animate() {
 
   if (currentState === 'orbiting') {
     orbitTimer += deltaTime;
-    updateIndicator('Orbiting...', false);
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       const ix = i * 3;
@@ -235,7 +221,6 @@ function animate() {
 
   } else if (currentState === 'morphing') {
     morphProgress += deltaTime / morphDuration;
-    updateIndicator(`Forming ${patterns[currentPatternIndex].name}...`, true);
 
     if (morphProgress >= 1) {
       morphProgress = 1;
@@ -260,7 +245,6 @@ function animate() {
 
   } else if (currentState === 'holding') {
     holdTimer += deltaTime;
-    updateIndicator(`${patterns[currentPatternIndex].name}`, true);
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       const ix = i * 3;
