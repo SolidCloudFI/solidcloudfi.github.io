@@ -84,7 +84,8 @@ h6 {
   background: var(--glass-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
+  border-top: 0.5px solid var(--glass-border);
+  border-bottom: 0.5px solid var(--glass-border);
   border-radius: 20px;
 }
 
