@@ -67,6 +67,7 @@ h6 {
   position: fixed;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: radial-gradient(ellipse at center, var(--bg-gradient-inner) 0%, var(--bg-gradient-outer) 100%);
   overflow: hidden;
   transition: background 0.3s ease;
@@ -141,8 +142,10 @@ h6 {
 /* Sections */
 section {
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 120px 20px 60px;
   margin-bottom: 100vh;
+  margin-bottom: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -162,6 +165,7 @@ section:last-of-type {
 #hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -314,6 +318,7 @@ h2 {
 /* Contact Section */
 #contact {
   min-height: 80vh;
+  min-height: 80dvh;
 }
 
 .contact-content {
