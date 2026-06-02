@@ -10,6 +10,10 @@
   --glass-border: rgba(255, 255, 255, 0.15);
   --accent: #6366f1;
   --accent-glow: rgba(99, 102, 241, 0.3);
+  --accent-2: #a855f7;
+  --accent-3: #22d3ee;
+  --ai-gradient: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 45%, var(--accent-3) 100%);
+  --label-accent: #ff7a1a;
 }
 
 .light-mode {
@@ -24,6 +28,9 @@
   --glass-border: rgba(255, 255, 255, 0.6);
   --accent: #4f46e5;
   --accent-glow: rgba(79, 70, 229, 0.3);
+  --accent-2: #7c3aed;
+  --accent-3: #0891b2;
+  --label-accent: #ea580c;
 }
 
 * {
@@ -51,6 +58,31 @@ h4,
 h5,
 h6 {
   font-family: 'DM Serif Display', serif;
+}
+
+/* Animated AI gradient palette */
+@keyframes ai-gradient-pan {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-text {
+  background: var(--ai-gradient);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: ai-gradient-pan 7s ease-in-out infinite;
 }
 
 /* Fixed canvas background */
@@ -294,28 +326,36 @@ h2 {
   font-size: 1.1rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-tertiary);
+  color: var(--label-accent);
   transition: color 0.4s ease;
 }
 
-.service-card:hover,
-.reveal-ready .service-card.is-visible:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+/* Animated gradient edge on the side each item enters from */
+.service-item.reveal-left::after,
+.service-item.reveal-right::after {
+  content: "";
+  position: absolute;
+  top: 22px;
+  bottom: 22px;
+  width: 4px;
+  border-radius: 3px;
+  background: var(--ai-gradient);
+  background-size: 200% 200%;
+  animation: ai-gradient-pan 7s ease-in-out infinite;
+  box-shadow: 0 0 24px -1px var(--accent-glow);
 }
 
-/* Flagship AI offerings stand apart from the foundation cards */
-.service-card.featured {
-  border-left: 2px solid var(--accent);
+.service-item.reveal-left::after {
+  left: 0;
+}
+
+.service-item.reveal-right::after {
+  right: 0;
+}
+
+/* Every service card carries the accent glow */
+.service-card {
   box-shadow: 0 0 50px -12px var(--accent-glow);
-}
-
-.service-card.featured::before {
-  color: var(--accent);
-}
-
-.service-card.featured:hover {
-  box-shadow: 0 20px 60px -8px var(--accent-glow);
 }
 
 /* Eyebrow label above section headings */
@@ -390,10 +430,28 @@ h2 {
 }
 
 .contact-content {
+  position: relative;
   text-align: center;
   max-width: 700px;
   margin: 0 auto;
   padding: 60px 40px;
+  box-shadow: 0 0 70px -20px var(--accent-glow);
+}
+
+/* Animated gradient accent bar along the top edge */
+.contact-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 22px;
+  right: 22px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--ai-gradient);
+  background-size: 200% 200%;
+  animation: ai-gradient-pan 7s ease-in-out infinite;
+  box-shadow: 0 0 18px -2px var(--accent-glow);
+  pointer-events: none;
 }
 
 .contact-content h2 {
@@ -438,6 +496,12 @@ h2 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(34, 211, 238, 0.12));
+  border: 1px solid var(--glass-border);
+  flex-shrink: 0;
 }
 
 .contact-icon svg {
@@ -544,6 +608,13 @@ footer {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  .gradient-text,
+  .service-item.reveal-left::after,
+  .service-item.reveal-right::after,
+  .contact-content::before {
+    animation: none;
   }
 }
 
