@@ -181,9 +181,25 @@ section:last-of-type {
 .hero-content h1 {
   font-size: clamp(2.5rem, 8vw, 5rem);
   font-weight: 700;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
   line-height: 1.1;
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  font-family: 'Inconsolata', monospace;
+  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.75rem;
+  padding: 8px 18px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .cta-buttons {
@@ -253,12 +269,64 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  counter-reset: service;
 }
 
 .service-item {
+  position: relative;
   padding: 48px;
   max-width: 700px;
   margin-bottom: 4rem;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+/* Editorial index numbers on the six service cards */
+.service-card {
+  counter-increment: service;
+}
+
+.service-card::before {
+  content: counter(service, decimal-leading-zero) "  ·  " attr(data-label);
+  position: absolute;
+  top: 28px;
+  right: 36px;
+  font-family: 'Inconsolata', monospace;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  transition: color 0.4s ease;
+}
+
+.service-card:hover,
+.reveal-ready .service-card.is-visible:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+/* Flagship AI offerings stand apart from the foundation cards */
+.service-card.featured {
+  border-left: 2px solid var(--accent);
+  box-shadow: 0 0 50px -12px var(--accent-glow);
+}
+
+.service-card.featured::before {
+  color: var(--accent);
+}
+
+.service-card.featured:hover {
+  box-shadow: 0 20px 60px -8px var(--accent-glow);
+}
+
+/* Eyebrow label above section headings */
+.section-eyebrow {
+  font-family: 'Inconsolata', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+  opacity: 0.9;
 }
 
 .service-item:nth-child(odd) {
@@ -428,10 +496,54 @@ footer {
     margin-bottom: 3rem;
   }
 
+  /* Icon and index share the top row; title drops to its own row below */
+  .service-item h3 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .service-card::before {
+    top: 38px;
+    right: 24px;
+  }
+
   .service-item:nth-child(odd),
   .service-item:nth-child(even) {
     margin-left: 0;
     margin-right: 0;
+  }
+}
+
+/* Scroll-triggered reveals (only active once JS confirms support) */
+.reveal-ready .reveal {
+  opacity: 0;
+  transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-ready .reveal-left {
+  transform: translateX(-48px);
+}
+
+.reveal-ready .reveal-right {
+  transform: translateX(48px);
+}
+
+.reveal-ready .reveal-up {
+  transform: translateY(48px);
+}
+
+.reveal-ready .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 

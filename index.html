@@ -10,9 +10,9 @@
     href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inconsolata:wght@200..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <title>Solid Cloud - Full Stack Development & Cloud Engineering</title>
+  <title>Solid Cloud - Agentic AI Workflows for Business</title>
   <meta name="description"
-    content="Backend, frontend, and the cloud glue between them—delivered pragmatically and on time.">
+    content="Agentic AI workflows that automate real work for your business—built on over a decade of full-stack and cloud engineering.">
 </head>
 
 <body>
@@ -38,9 +38,11 @@
     <!-- Hero Section -->
     <section id="hero">
       <div class="hero-content">
-        <h1>Full stack thinking. Cloud-scale execution.</h1>
+        <p class="hero-eyebrow">Agentic AI · built to ship</p>
+        <h1>Agentic AI workflows that get things done.</h1>
         <div class="cta-buttons">
           <a href="#contact" class="btn btn-primary">Get in Touch</a>
+          <a href="#services" class="btn btn-secondary">See what I build</a>
         </div>
       </div>
       <div class="scroll-indicator">
@@ -52,129 +54,154 @@
     <section id="services">
       <div class="container">
         <div class="services-list">
-          <div class="service-item glass">
+          <div class="service-item service-intro glass reveal reveal-left">
+            <p class="section-eyebrow">What I do</p>
             <h2>Services</h2>
-            <p class="subtitle">10+ years of experience building scalable web applications and cloud infrastructure.
-              From
-              architectural design to implementation, delivering complete solutions that work.</p>
+            <p class="subtitle">I help companies put agentic AI to work—and not just the agents themselves. I build the
+              harnesses they run in: the orchestration, tool access, memory, and guardrails that turn a clever prompt
+              into a dependable system. Backed by 10+ years of full-stack and cloud engineering, so what you ship holds
+              up in production.</p>
           </div>
 
-          <div class="service-item glass">
+          <div class="service-item service-card featured glass reveal reveal-right" data-label="automate">
             <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round">
-                  <polyline points="16 18 22 12 16 6"></polyline>
-                  <polyline points="8 6 2 12 8 18"></polyline>
-                </svg></span> Full Stack Development</h3>
-            <p>Complete application development from database design to user interface. Expert in TypeScript, React,
-              Vue, Node.js, and PHP with modern frameworks.</p>
+                  <path d="M12 8V4H8"></path>
+                  <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+                  <path d="M2 14h2"></path>
+                  <path d="M20 14h2"></path>
+                  <path d="M15 13v2"></path>
+                  <path d="M9 13v2"></path>
+                </svg></span> Agentic AI Workflows</h3>
+            <p>AI agents that do real work—triaging requests, processing documents, drafting and routing, and taking
+              action across your tools. But an agent is only as good as the harness around it, so I build the runtime
+              too: the orchestration, state, retries, and guardrails that keep multi-step workflows reliable.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">AI Agents</span>
+              <span class="tech-tag">Agent Harnesses</span>
+              <span class="tech-tag">Microsoft Foundry</span>
+              <span class="tech-tag">LangChain</span>
+              <span class="tech-tag">LangGraph</span>
+              <span class="tech-tag">Semantic Kernel</span>
+              <span class="tech-tag">Orchestration</span>
+              <span class="tech-tag">Memory &amp; State</span>
+              <span class="tech-tag">Tool Use</span>
+              <span class="tech-tag">Human-in-the-loop</span>
+            </div>
+          </div>
+
+          <div class="service-item service-card featured glass reveal reveal-left" data-label="integrate">
+            <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect width="16" height="16" x="4" y="4" rx="2"></rect>
+                  <rect width="6" height="6" x="9" y="9" rx="1"></rect>
+                  <path d="M15 2v2"></path>
+                  <path d="M15 20v2"></path>
+                  <path d="M2 15h2"></path>
+                  <path d="M2 9h2"></path>
+                  <path d="M20 15h2"></path>
+                  <path d="M20 9h2"></path>
+                  <path d="M9 2v2"></path>
+                  <path d="M9 20v2"></path>
+                </svg></span> AI Integration & LLM Engineering</h3>
+            <p>Connecting large language models to your data and systems—RAG, tool calling, MCP servers, and
+              custom integrations. Reliable prompting, evaluation, and guardrails so the AI behaves predictably in
+              production.</p>
+            <div class="tech-tags">
+              <span class="tech-tag">Azure OpenAI</span>
+              <span class="tech-tag">Anthropic Claude</span>
+              <span class="tech-tag">OpenAI</span>
+              <span class="tech-tag">Vertex AI</span>
+              <span class="tech-tag">RAG</span>
+              <span class="tech-tag">MCP</span>
+              <span class="tech-tag">Vector Search</span>
+              <span class="tech-tag">Guardrails</span>
+            </div>
+          </div>
+
+          <div class="service-item service-card glass reveal reveal-right" data-label="engineer">
+            <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path>
+                  <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path>
+                  <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path>
+                </svg></span> Full-Stack & Cloud Foundation</h3>
+            <p>Over a decade building scalable web applications and cloud infrastructure—from MVP to production
+              systems handling millions in revenue. The same engineering rigor that makes AI workflows production-ready
+              instead of demos.</p>
             <div class="tech-tags">
               <span class="tech-tag">TypeScript</span>
               <span class="tech-tag">React</span>
-              <span class="tech-tag">Next.js</span>
-              <span class="tech-tag">Vue</span>
-              <span class="tech-tag">Nuxt</span>
               <span class="tech-tag">Node.js</span>
-              <span class="tech-tag">PHP</span>
-              <span class="tech-tag">Redux</span>
-              <span class="tech-tag">Hydrogen</span>
-            </div>
-          </div>
-
-          <div class="service-item glass">
-            <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
-                </svg></span> Cloud Architecture</h3>
-            <p>Design and implementation of scalable cloud infrastructure on AWS and GCP. Infrastructure as code with
-              Terraform, containerization with Docker and Kubernetes.</p>
-            <div class="tech-tags">
               <span class="tech-tag">AWS</span>
               <span class="tech-tag">GCP</span>
               <span class="tech-tag">Terraform</span>
-              <span class="tech-tag">Docker</span>
               <span class="tech-tag">Kubernetes</span>
-              <span class="tech-tag">Vercel</span>
+              <span class="tech-tag">REST &amp; GraphQL</span>
             </div>
           </div>
 
-          <div class="service-item glass">
+          <div class="service-item service-card glass reveal reveal-left" data-label="operate">
             <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round">
-                  <rect x="3" y="3" width="7" height="7"></rect>
-                  <rect x="14" y="3" width="7" height="7"></rect>
-                  <rect x="14" y="14" width="7" height="7"></rect>
-                  <rect x="3" y="14" width="7" height="7"></rect>
-                </svg></span> System Architecture</h3>
-            <p>Strategic architectural decisions for complex projects. From MVP to production-scale systems handling
-              millions in revenue, with a focus on maintainability and scalability.</p>
-            <div class="tech-tags">
-              <span class="tech-tag">Architecture Design</span>
-              <span class="tech-tag">REST APIs</span>
-              <span class="tech-tag">GraphQL</span>
-              <span class="tech-tag">SQL</span>
-              <span class="tech-tag">ORM</span>
-            </div>
-          </div>
-
-          <div class="service-item glass">
-            <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <polyline points="23 4 23 10 17 10"></polyline>
-                  <polyline points="1 20 1 14 7 14"></polyline>
-                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                </svg></span> DevOps & CI/CD</h3>
-            <p>Automated deployment pipelines, continuous integration, and infrastructure automation. Implementing
-              best practices for reliable and fast delivery.</p>
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg></span> Deployment & Operations</h3>
+            <p>Getting AI workflows into production and keeping them there—automated pipelines, monitoring, evaluation,
+              and cost controls. So your agents stay reliable, observable, and affordable as usage grows.</p>
             <div class="tech-tags">
               <span class="tech-tag">CI/CD</span>
+              <span class="tech-tag">Monitoring</span>
+              <span class="tech-tag">Observability</span>
               <span class="tech-tag">Docker</span>
               <span class="tech-tag">Kubernetes</span>
-              <span class="tech-tag">Terraform</span>
-              <span class="tech-tag">Git</span>
+              <span class="tech-tag">Cost Control</span>
             </div>
           </div>
 
-          <div class="service-item glass">
+          <div class="service-item service-card glass reveal reveal-right" data-label="advise">
             <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <circle cx="12" cy="12" r="6"></circle>
-                  <circle cx="12" cy="12" r="2"></circle>
-                </svg></span> Technical Consulting</h3>
-            <p>Expert guidance on technology choices, architecture decisions, and development processes. Helping teams
-              deliver quality software efficiently.</p>
+                  <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
+                  <path d="M9 18h6"></path>
+                  <path d="M10 22h4"></path>
+                </svg></span> AI Strategy & Consulting</h3>
+            <p>Finding where AI actually moves the needle for your business—and where it doesn't. I help teams identify
+              high-value use cases, scope realistic pilots, and avoid expensive dead ends, with honest guidance on
+              feasibility and ROI.</p>
             <div class="tech-tags">
-              <span class="tech-tag">Agile</span>
-              <span class="tech-tag">Team Leadership</span>
-              <span class="tech-tag">TDD</span>
-              <span class="tech-tag">Jest</span>
-              <span class="tech-tag">Cypress</span>
-              <span class="tech-tag">Playwright</span>
+              <span class="tech-tag">Use-case Discovery</span>
+              <span class="tech-tag">Feasibility</span>
+              <span class="tech-tag">Pilots &amp; PoCs</span>
+              <span class="tech-tag">ROI</span>
+              <span class="tech-tag">Roadmapping</span>
             </div>
           </div>
 
-          <div class="service-item glass">
+          <div class="service-item service-card glass reveal reveal-left" data-label="connect">
             <h3><span class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round">
-                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                </svg></span> Systems Integration</h3>
-            <p>Specialized in connecting complex systems, APIs, and third-party services. Experience with headless
-              CMS, e-commerce platforms, and custom integrations.</p>
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line>
+                  <line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
+                </svg></span> Systems & Tool Integration</h3>
+            <p>Wiring agents into the tools you already use—CRMs, e-commerce platforms, databases, and third-party
+              APIs. Deep experience connecting complex systems so AI can read, act, and write back where it matters.</p>
             <div class="tech-tags">
-              <span class="tech-tag">Sanity</span>
-              <span class="tech-tag">WordPress</span>
-              <span class="tech-tag">WooCommerce</span>
+              <span class="tech-tag">REST &amp; APIs</span>
+              <span class="tech-tag">Webhooks</span>
+              <span class="tech-tag">CRM</span>
               <span class="tech-tag">Shopify</span>
               <span class="tech-tag">Supabase</span>
               <span class="tech-tag">Prisma</span>
-              <span class="tech-tag">Algolia</span>
+              <span class="tech-tag">Headless CMS</span>
             </div>
           </div>
         </div>
@@ -184,10 +211,10 @@
     <!-- Contact Section -->
     <section id="contact">
       <div class="container">
-        <div class="contact-content glass">
-          <h2>Let's Work Together</h2>
-          <p>Ready to bring your project to life? Whether you need a complete solution from scratch or expert consulting
-            to guide your team, let's discuss how we can collaborate.</p>
+        <div class="contact-content glass reveal reveal-up">
+          <h2>Let's Put AI to Work</h2>
+          <p>Curious where agentic AI could save your team real time and money? Whether you're exploring a first pilot
+            or scaling workflows into production, let's talk about what's actually worth building.</p>
 
           <div class="contact-info">
             <div class="contact-item">
@@ -225,7 +252,7 @@
 
     <!-- Footer -->
     <footer>
-      <p>&copy; 2025 Solid Cloud. All rights reserved.</p>
+      <p>&copy; 2026 Solid Cloud. All rights reserved.</p>
     </footer>
 
   </div>
