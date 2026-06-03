@@ -546,6 +546,31 @@ footer {
     padding: 40px 24px;
   }
 
+  /* DM Serif Display ships only weight 400, so mobile browsers can't
+     synthesize bold — thicken every heading with a stroke and tighten tracking */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: -0.045em;
+    -webkit-text-stroke: 0.8px currentColor;
+  }
+
+  .hero-content h1 {
+    letter-spacing: -0.045em;
+  }
+
+  /* Gradient + stroke reads poorly at small sizes — fall back to solid accent */
+  .gradient-text {
+    background: none;
+    color: var(--accent-2);
+    -webkit-text-fill-color: var(--accent-2);
+    -webkit-text-stroke: 0.8px currentColor;
+    animation: none;
+  }
+
   .cta-buttons {
     flex-direction: column;
   }

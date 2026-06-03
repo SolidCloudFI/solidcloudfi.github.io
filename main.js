@@ -65,6 +65,248 @@ const material = new THREE.PointsMaterial({
 const points = new THREE.Points(geometry, material);
 scene.add(points);
 
+// ============ NODE GRAPH OVERLAY (agentic workflow) ============
+// A subset of the particles act as "nodes" with dynamic connections drawn
+// between nearby ones, evoking an agentic network over the point cloud.
+const NODE_COUNT = 70;
+const nodeIndices = new Int32Array(NODE_COUNT);
+for (let i = 0; i < NODE_COUNT; i++) {
+  nodeIndices[i] = Math.floor((i + 0.5) * PARTICLE_COUNT / NODE_COUNT);
+}
+
+// Node hubs: larger, brighter points sampled from the cloud
+const nodeGeometry = new THREE.BufferGeometry();
+const nodePositions = new Float32Array(NODE_COUNT * 3);
+const nodeColors = new Float32Array(NODE_COUNT * 3);
+nodeGeometry.setAttribute('position', new THREE.BufferAttribute(nodePositions, 3));
+nodeGeometry.setAttribute('color', new THREE.BufferAttribute(nodeColors, 3));
+
+const nodeMaterial = new THREE.PointsMaterial({
+  size: 0.028,
+  sizeAttenuation: true,
+  transparent: true,
+  opacity: 0.95,
+  vertexColors: true,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false
+});
+
+const nodePoints = new THREE.Points(nodeGeometry, nodeMaterial);
+scene.add(nodePoints);
+
+// Connections: a pool of line segments, redrawn each frame by proximity
+const MAX_LINE_VERTS = NODE_COUNT * NODE_COUNT; // safe upper bound (2 * pairs)
+const lineGeometry = new THREE.BufferGeometry();
+const linePositions = new Float32Array(MAX_LINE_VERTS * 3);
+const lineColors = new Float32Array(MAX_LINE_VERTS * 3);
+lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+lineGeometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
+
+const lineMaterial = new THREE.LineBasicMaterial({
+  vertexColors: true,
+  transparent: true,
+  opacity: 1.0,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false
+});
+
+const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial);
+scene.add(lineSegments);
+
+// ---- Lightning bolts: pulses that travel through the node graph ----
+const MAX_BOLTS = 2;
+const BOLT_LENGTH = 15;     // target number of nodes a bolt threads through
+const HOP_DIST = 2.0;       // max distance between consecutive nodes
+const BOLT_TAIL = 4;        // glowing segments trailing behind the head
+const nodeBoost = new Float32Array(NODE_COUNT);
+
+const bolts = [];
+let spawnTimer = 0;
+let nextSpawn = 1.5;
+
+// Random walk through nearby nodes to form a connected path
+function buildBoltPath(startNode) {
+  const visited = new Uint8Array(NODE_COUNT);
+  let current = startNode === undefined
+    ? Math.floor(Math.random() * NODE_COUNT)
+    : startNode;
+  const path = [current];
+  visited[current] = 1;
+  const hop2 = HOP_DIST * HOP_DIST;
+
+  while (path.length < BOLT_LENGTH) {
+    const cx = nodePositions[current * 3];
+    const cy = nodePositions[current * 3 + 1];
+    const cz = nodePositions[current * 3 + 2];
+    const candidates = [];
+
+    for (let n = 0; n < NODE_COUNT; n++) {
+      if (visited[n]) continue;
+      const dx = cx - nodePositions[n * 3];
+      const dy = cy - nodePositions[n * 3 + 1];
+      const dz = cz - nodePositions[n * 3 + 2];
+      if (dx * dx + dy * dy + dz * dz < hop2) candidates.push(n);
+    }
+    if (candidates.length === 0) break;
+
+    current = candidates[Math.floor(Math.random() * candidates.length)];
+    path.push(current);
+    visited[current] = 1;
+  }
+  return path;
+}
+
+function spawnBolt(startNode, minLen) {
+  const path = buildBoltPath(startNode);
+  if (path.length < (minLen || 4)) return; // too short to read as a bolt
+  bolts.push({
+    path: path,
+    head: 0,
+    speed: 3 + Math.random() * 2 // segments per second (slow lightning)
+  });
+}
+
+// Click anywhere spawns a bolt from the node nearest the cursor
+const clickProjVec = new THREE.Vector3();
+
+function nearestNodeToScreen(clientX, clientY) {
+  const nx = (clientX / window.innerWidth) * 2 - 1;
+  const ny = -(clientY / window.innerHeight) * 2 + 1;
+  nodePoints.updateMatrixWorld(true);
+
+  let best = -1;
+  let bestDist = Infinity;
+  for (let n = 0; n < NODE_COUNT; n++) {
+    clickProjVec.set(nodePositions[n * 3], nodePositions[n * 3 + 1], nodePositions[n * 3 + 2]);
+    clickProjVec.applyMatrix4(nodePoints.matrixWorld);
+    clickProjVec.project(camera);
+    const dx = clickProjVec.x - nx;
+    const dy = clickProjVec.y - ny;
+    const d = dx * dx + dy * dy;
+    if (d < bestDist) {
+      bestDist = d;
+      best = n;
+    }
+  }
+  return best;
+}
+
+window.addEventListener('click', (event) => {
+  const node = nearestNodeToScreen(event.clientX, event.clientY);
+  if (node < 0) return;
+  if (bolts.length >= MAX_BOLTS) bolts.shift(); // make room — a click always fires
+  spawnBolt(node, 2);
+});
+
+// Update node positions, advance the bolts, and rebuild the line buffer
+function updateGraph(deltaTime, isLight) {
+  const posArr = geometry.attributes.position.array;
+
+  for (let n = 0; n < NODE_COUNT; n++) {
+    const src = nodeIndices[n] * 3;
+    nodePositions[n * 3] = posArr[src];
+    nodePositions[n * 3 + 1] = posArr[src + 1];
+    nodePositions[n * 3 + 2] = posArr[src + 2];
+    nodeBoost[n] = 0;
+  }
+
+  // Spawn new bolts at random intervals
+  spawnTimer += deltaTime;
+  if (spawnTimer >= nextSpawn && bolts.length < MAX_BOLTS) {
+    spawnTimer = 0;
+    nextSpawn = 3 + Math.random() * 5; // long gaps: usually 0–1 bolts, rarely 2
+    spawnBolt();
+  }
+
+  let v = 0;
+
+  for (let i = bolts.length - 1; i >= 0; i--) {
+    const bolt = bolts[i];
+    bolt.head += bolt.speed * deltaTime;
+    const segCount = bolt.path.length - 1;
+
+    // Retire once the head has passed the end and the tail has faded
+    if (bolt.head > segCount + BOLT_TAIL * 1.5) {
+      bolts.splice(i, 1);
+      continue;
+    }
+
+    for (let s = 0; s < segCount; s++) {
+      // Brightest at the head, exponential fade for segments behind it
+      let intensity;
+      const behind = bolt.head - (s + 1);
+      if (behind >= 0) {
+        intensity = Math.exp(-behind / BOLT_TAIL);
+      } else {
+        const lead = bolt.head - s; // head crossing into this segment
+        intensity = (lead > 0 && lead < 1) ? lead : 0;
+      }
+      if (intensity <= 0.03) continue;
+
+      const a = bolt.path[s];
+      const b = bolt.path[s + 1];
+
+      linePositions[v * 3] = nodePositions[a * 3];
+      linePositions[v * 3 + 1] = nodePositions[a * 3 + 1];
+      linePositions[v * 3 + 2] = nodePositions[a * 3 + 2];
+      linePositions[(v + 1) * 3] = nodePositions[b * 3];
+      linePositions[(v + 1) * 3 + 1] = nodePositions[b * 3 + 1];
+      linePositions[(v + 1) * 3 + 2] = nodePositions[b * 3 + 2];
+
+      const t = Math.min(intensity, 1);
+      if (t > nodeBoost[a]) nodeBoost[a] = t;
+      if (t > nodeBoost[b]) nodeBoost[b] = t;
+
+      let r, g, bl;
+      if (isLight) {
+        // Normal blending: strong = vivid orange (#ea580c), weak fades to white
+        r = 1 - t * 0.08;
+        g = 1 - t * 0.66;
+        bl = 1 - t * 0.95;
+      } else {
+        // Additive blending: orange (#ff7a1a) with a white-hot core at the head
+        const white = Math.max(0, t - 0.6) * 1.2;
+        r = 1.0 * t + white;
+        g = 0.48 * t + white;
+        bl = 0.1 * t + white;
+      }
+
+      lineColors[v * 3] = r;
+      lineColors[v * 3 + 1] = g;
+      lineColors[v * 3 + 2] = bl;
+      lineColors[(v + 1) * 3] = r;
+      lineColors[(v + 1) * 3 + 1] = g;
+      lineColors[(v + 1) * 3 + 2] = bl;
+
+      v += 2;
+      if (v >= MAX_LINE_VERTS) break;
+    }
+    if (v >= MAX_LINE_VERTS) break;
+  }
+
+  lineGeometry.setDrawRange(0, v);
+  lineGeometry.attributes.position.needsUpdate = true;
+  lineGeometry.attributes.color.needsUpdate = true;
+
+  // Node hubs: dim by default, lit up where a bolt is passing through
+  for (let n = 0; n < NODE_COUNT; n++) {
+    const boost = nodeBoost[n];
+    if (isLight) {
+      // dim neutral → vivid orange (#ea580c)
+      nodeColors[n * 3] = 0.45 + boost * 0.47;
+      nodeColors[n * 3 + 1] = 0.45 - boost * 0.11;
+      nodeColors[n * 3 + 2] = 0.5 - boost * 0.45;
+    } else {
+      // dim neutral → warm orange (#ff7a1a) glow
+      nodeColors[n * 3] = 0.3 + boost * 0.85;
+      nodeColors[n * 3 + 1] = 0.32 + boost * 0.5;
+      nodeColors[n * 3 + 2] = 0.38 + boost * 0.12;
+    }
+  }
+  nodeGeometry.attributes.position.needsUpdate = true;
+  nodeGeometry.attributes.color.needsUpdate = true;
+}
+
 // ============ THEME TOGGLE ============
 const currentHour = new Date().getHours();
 const isWorkHours = currentHour >= 8 && currentHour < 18;
@@ -82,9 +324,13 @@ if (!isDarkMode) {
   document.body.classList.add('light-mode');
   themeIcon.innerHTML = sunIcon;
   material.blending = THREE.NormalBlending;
+  nodeMaterial.blending = THREE.NormalBlending;
+  lineMaterial.blending = THREE.NormalBlending;
 } else {
   themeIcon.innerHTML = moonIcon;
   material.blending = THREE.AdditiveBlending;
+  nodeMaterial.blending = THREE.AdditiveBlending;
+  lineMaterial.blending = THREE.AdditiveBlending;
 }
 updateParticleColors(!isDarkMode);
 
@@ -116,9 +362,13 @@ themeToggle.addEventListener('click', () => {
   if (isDarkMode) {
     themeIcon.innerHTML = moonIcon;
     material.blending = THREE.AdditiveBlending;
+    nodeMaterial.blending = THREE.AdditiveBlending;
+    lineMaterial.blending = THREE.AdditiveBlending;
   } else {
     themeIcon.innerHTML = sunIcon;
     material.blending = THREE.NormalBlending;
+    nodeMaterial.blending = THREE.NormalBlending;
+    lineMaterial.blending = THREE.NormalBlending;
   }
 
   updateParticleColors(!isDarkMode);
@@ -266,8 +516,14 @@ function animate() {
 
   geometry.attributes.position.needsUpdate = true;
 
+  updateGraph(deltaTime, !isDarkMode);
+
   points.rotation.y += deltaTime * 0.04;
   points.rotation.x = Math.sin(clock.elapsedTime * 0.1) * 0.1;
+
+  // Keep the node graph locked to the cloud's orientation
+  nodePoints.rotation.copy(points.rotation);
+  lineSegments.rotation.copy(points.rotation);
 
   renderer.render(scene, camera);
 }
