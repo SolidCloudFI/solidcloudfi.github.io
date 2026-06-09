@@ -438,6 +438,37 @@ h2 {
   box-shadow: 0 0 70px -20px var(--accent-glow);
 }
 
+/* Founder photo beside the contact details */
+.contact-details {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  margin-top: 2.5rem;
+  text-align: left;
+}
+
+/* Founder avatar with an animated gradient ring */
+.contact-avatar {
+  flex-shrink: 0;
+  width: 124px;
+  height: 124px;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--ai-gradient);
+  background-size: 200% 200%;
+  animation: ai-gradient-pan 7s ease-in-out infinite;
+  box-shadow: 0 0 32px -6px var(--accent-glow);
+}
+
+.contact-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 /* Animated gradient accent bar along the top edge */
 .contact-content::before {
   content: "";
@@ -469,13 +500,12 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-top: 3rem;
 }
 
 .contact-item {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 12px;
   font-size: 1.1rem;
   color: var(--text-secondary);
@@ -571,6 +601,12 @@ footer {
     animation: none;
   }
 
+  /* Stack the photo on top of the contact details */
+  .contact-details {
+    flex-direction: column;
+    gap: 24px;
+  }
+
   .cta-buttons {
     flex-direction: column;
   }
@@ -638,7 +674,8 @@ footer {
   .gradient-text,
   .service-item.reveal-left::after,
   .service-item.reveal-right::after,
-  .contact-content::before {
+  .contact-content::before,
+  .contact-avatar {
     animation: none;
   }
 }
