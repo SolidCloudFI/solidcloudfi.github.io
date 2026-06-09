@@ -1,17 +1,26 @@
 // Initialize Three.js scene
 const canvas = document.getElementById('hero-canvas');
-const renderer = new THREE.WebGLRenderer({
-  canvas: canvas,
-  antialias: true,
-  alpha: true
-});
+
+// WebGL may be unavailable (e.g. hardware acceleration disabled or the GPU is
+// blocklisted). Detect that up front so we fall back to the static gradient
+// background instead of throwing and taking the rest of the page down with it.
+let renderer = null;
+try {
+  renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: true,
+    alpha: true
+  });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+} catch (err) {
+  console.warn('WebGL unavailable — skipping the point cloud animation.', err);
+  document.documentElement.classList.add('no-webgl');
+}
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 0, 7);
-
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 // Lighting for subtle depth
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
@@ -612,14 +621,19 @@ function onResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-window.addEventListener('resize', onResize);
+// Start the 3D animation and its scroll/resize wiring only when WebGL works.
+// Without it, the static gradient background remains and the rest of the page
+// (theme toggle, scroll reveals, etc.) still runs normally below.
+if (renderer) {
+  window.addEventListener('resize', onResize);
 
-// Start animation
-animate();
+  // Start animation
+  animate();
 
-// ============ SCROLL PATTERN UPDATE ============
-window.addEventListener('scroll', updatePatternBasedOnScroll);
-updatePatternBasedOnScroll();
+  // ============ SCROLL PATTERN UPDATE ============
+  window.addEventListener('scroll', updatePatternBasedOnScroll);
+  updatePatternBasedOnScroll();
+}
 
 // ============ SCROLL INDICATOR FADE ============
 const scrollIndicator = document.querySelector('.scroll-indicator');
